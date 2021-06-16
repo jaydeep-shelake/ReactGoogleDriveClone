@@ -1,0 +1,21 @@
+.right-sidebar{
+    width: 5%;
+    border-left: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    right: 0;
+    height: 200px;
+    top: 70px;
+    padding: 0 20px;
+}
+
+.right-sidebar img{
+    width: 30px;
+}
+@media(max-width:370px){
+    .right-sidebar{
+        display: none;
+    }
+}

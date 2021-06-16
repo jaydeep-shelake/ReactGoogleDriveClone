@@ -1,0 +1,55 @@
+.fileCard{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.fileArea{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid rgb(219,219,219);
+}
+.fileCrad-top{
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px 5px;
+   
+    border-radius: 4px;
+    text-decoration: none;
+    color: rgb(99, 97, 97);
+}
+
+.fileCrad-top img{
+    width: 90%;
+    height: 80px !important;
+}
+.fileCrad-top p{
+    width: 100%;
+    text-align: center;
+    border-top:  1px solid rgb(219,219,219);
+    font-size: 13px;
+    
+}
+.deletbtn{
+    padding: 8px 8px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deletbtn:hover{
+    background: rgba(107, 106, 106, 0.13);
+}
+@media(max-width:757px){
+    .files-card{
+        align-items:flex-start;
+        justify-content: flex-start;
+    }
+}

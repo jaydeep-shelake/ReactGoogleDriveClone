@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+}
+.hero{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+.app_login{
+    width: 300px;
+    height: 300px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.171);
+    border-radius:8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.app_login button{
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+    background: rgb(109, 109, 248);
+    color: #fff;
+    outline: none;
+    border-radius: 4px;
+    padding: 2px ;
+    display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding-right: 5px;
+}
+.app_login button .icon{
+    height: 100%;
+    background: #fff;
+    padding: 3px;
+    margin-right: 10px;
+
+}
+.app_login button img{
+    width: 35px;
+}
+.app_login .dev{
+    color: rgb(151, 151, 151);
+    margin-top: 40px;
+}
+a{
+    text-decoration: none;
+}
+@media(max-width:435px){
+    .hero{
+        margin-top: 30px;
+    }
+}
