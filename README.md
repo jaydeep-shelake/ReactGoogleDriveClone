@@ -10,7 +10,7 @@
 ## ⚙️ Detailed Functionality
 * Users have to authenticate themselves by Google OAuth2.0
 * Login Users can Read,Creat,Stared and Delete there files
-* Users can remove files from starts and add them any time
+* Users can remove files from stared and add them any time
 * User can view their profile 
 * User can copy the link of file as well
 * User can logout any time from the app
@@ -27,12 +27,12 @@
 
 ## login page
 <img src="./public/login.png" width='800' height='auto'>
-
+<br>
 ## Home Page
 <img src="./public/home.png" width='800' height='auto'>
-
+<br>
 ## Mobile View
 <img src="./public/mobile.png" width='400' height='auto'>
-
+<br>
 ### LINK : 
 https://driveclone-6e9ac.web.app/
