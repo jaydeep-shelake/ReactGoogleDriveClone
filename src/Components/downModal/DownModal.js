@@ -1,60 +1,31 @@
-import React,{useState} from 'react'
-import {db,storage} from '../../firebase';
+import React from 'react'
+import {connect} from 'react-redux'
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import {addToStar,handleModal,handleMsg,deleteFile} from '../../actions'
 import './downModal.css';
-const DownModal = ({fileUrl,caption,id,userId,setOpen,setMsg}) => {
+const DownModal = ({fileUrl,caption,id,userId,handleModal,addToStar,handleMsg,deleteFile}) => {
         
-    const addToStarred= async()=>{
-    const data = await db.collection('myStarredFiles').doc(id).set({
-         fileUrl,
-         caption,
-         userId
-    })
-    .then(()=>{
-      console.log('sucessfully added start')
-      setOpen(false)
-    }).catch((e)=>{
-      console.log(e)
-    })   
+    const handleAddToStarred=()=>{
+      addToStar(fileUrl,caption,userId)   
     }
 
-    const deleteFile=async()=>{
-    await db.collection("myFiles").doc(id).delete().then(() => {
-        console.log("Document successfully deleted!");
-        setMsg("File deleted succsessfuly")
-        storage.ref(`files`).child(caption).delete().then(()=>{
-         console.log("deleted file successfully")
-        })
-        .catch((error)=>{
-          console.error("Error removing document: ", error);
-        })
-
-    }).catch((error) => {
-        console.error("Error removing document: ", error);
-        setMsg("Sorry,File Not deleted try again")
-    });
-
-    if(db.collection("myStarredFiles").doc(id)){
-    await db.collection("myStarredFiles").doc(id).delete().then(()=>{
-      console.log("Document successfully deleted!");
-        setMsg(" Stared file deleted succsessfuly")
-    }).catch((e)=>{
-      console.log(e)
-    })
-  }
+    const handleDeleteFile=()=>{
+      deleteFile(id,caption)
     }
 
     const copyToClipboard=()=>{
       navigator.clipboard.writeText(fileUrl).then(()=>{
            console.log('text copied sucessfully')
-           setOpen(false)
-           setMsg("Copied To clipboard")
+           handleModal(false)
+           handleMsg({msg:'Copied to clipboard',err:false})
+           setTimeout(()=>{
+            handleMsg({msg:'',err:false})
+           },1400)
       })
       .catch((e)=>{
          console.log(e)
-         setMsg("faild To clipboard")
       })
     }
 
@@ -65,10 +36,10 @@ const DownModal = ({fileUrl,caption,id,userId,setOpen,setMsg}) => {
              <div onClick={copyToClipboard}>
                <FileCopyIcon/> Copy link 
              </div>
-             <div onClick={addToStarred}>
+             <div onClick={handleAddToStarred}>
                <StarBorderIcon/> Add to Starred
              </div>
-             <div onClick={deleteFile}>
+             <div onClick={handleDeleteFile}>
                 <DeleteIcon/> Remove
              </div>
             </div>
@@ -77,4 +48,7 @@ const DownModal = ({fileUrl,caption,id,userId,setOpen,setMsg}) => {
     )
 }
 
-export default DownModal
+const mapStateToProps=(state)=>{
+ return {myFiles:state.firestore.ordered.myFiles}
+}
+export default connect(mapStateToProps,{addToStar,handleModal,handleMsg,deleteFile})(DownModal)

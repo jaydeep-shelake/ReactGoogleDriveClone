@@ -1,20 +1,20 @@
-import React ,{useState}from 'react'
+import React ,{useState,useEffect}from 'react'
 import './header.css';
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {logout} from '../../actions'
 import SearchIcon from '@material-ui/icons/Search';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AppsIcon from '@material-ui/icons/Apps';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import {auth} from '../../firebase'
-const Header = ({userPhoto,name,email}) => {
+const Header = (props) => {
   
     const [open,setOpen]=useState(false);
-
-    const handleSignout =async()=>{
-        console.log('clicked')
+    const handleSignout =()=>{
+        
       try{
-        await auth.signOut();
+        props.logout()
       }
       catch(e){
          console.log(e);
@@ -44,12 +44,12 @@ const Header = ({userPhoto,name,email}) => {
                     <SettingsIcon className="setting"/>
                     <AppsIcon/>
                 </span>
-                <img title={email} src={userPhoto} alt="profile" onClick={()=>setOpen(!open)}/>
+                <img src={props.auth?.photoURL} loading="lazy" title={props.auth?.email}  alt="profile" onClick={()=>setOpen(!open)}/>
                 {
                  open&&(
                 <div className="pofile">
-                   <h4>{name}</h4>
-                   <p>{email}</p>
+                   <h4>{props.auth?.displayName}</h4>
+                   <p>{props.auth?.email}</p>
                    <button className="signoutbtn" onClick={handleSignout}>Sign Out</button>
                 </div>
                  )
@@ -59,4 +59,8 @@ const Header = ({userPhoto,name,email}) => {
     )
 }
 
-export default Header
+const mapStateToProps=(state)=>{
+return{auth:state.firebase.auth}
+}
+
+export default connect(mapStateToProps,{logout})(Header)

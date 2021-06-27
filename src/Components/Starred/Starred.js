@@ -1,25 +1,18 @@
-import React,{useState,useEffect}from 'react';
-import {db} from '../../firebase';
+import React from 'react';
 import FileCard from '../fileCard/FileCard';
+import {compose}from 'redux'
+import {connect} from 'react-redux'
+import {firestoreConnect} from 'react-redux-firebase'
 import '../fileCard/fileCard.css'
-const Starred = ({currentUser}) => {
-    console.log(currentUser.uid)
-    const [starredFiles,setStarredFiles]=useState([]);
-    useEffect(()=>{
-         db.collection('myStarredFiles').where("userId","==",currentUser.uid).onSnapshot(snapshot=>{
-             setStarredFiles(snapshot.docs.map(doc=>({
-               id:doc.id,
-               item:doc.data(),
-             })));
-         })
-    },[]);
+const Starred = (props) => {
+     console.log(props)
     return (
         <div className="starred">
             <div className="files-card">
                 <p>Starred</p>
                 <div className="fileCardArea">
-                {starredFiles?.map(({id,item})=>{
-                   return ( <FileCard key={id} id={id} name={item.caption} fileUrl={item.fileUrl} del/>)
+                {props.starredFiles?.map((doc)=>{
+                   return ( <FileCard key={doc.id} id={doc.id} name={doc.caption} fileUrl={doc.fileUrl} del/>)
                 })}
                 </div>
                
@@ -28,4 +21,20 @@ const Starred = ({currentUser}) => {
     )
 }
 
-export default Starred
+const mapStateToProps=(state)=>{
+    return{
+      auth:state.firebase.auth,
+      starredFiles:state.firestore.ordered.myStarredFiles
+     }
+   }
+   
+   export default compose(
+     connect(mapStateToProps),
+     firestoreConnect((props)=>[
+       {
+         collection: 'myStarredFiles',
+         where: [['userId', '==',props.auth.uid]],
+       }
+   ])
+     )(Starred)
+   

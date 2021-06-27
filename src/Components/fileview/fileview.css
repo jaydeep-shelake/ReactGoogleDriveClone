@@ -44,6 +44,10 @@
 }
 .fileCardArea{
     display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
 }
 .msg{
     width: auto;

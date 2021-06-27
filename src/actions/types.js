@@ -1,0 +1,9 @@
+export const SIGN_IN="SIGN_IN";
+export const SIGN_OUT="SIGN_OUT";
+export const HANDLE_SIDEBAR="HANDLE_SIDEBAR";
+export const ADD_FILE="ADD_FILE";
+export const DELETE_FILE="DELETE_FILE";
+export const ADD_TO_STAR="ADD_TO_STAR";
+export const HANDLE_MODAL="HANDLE_MODAL";
+export const HANDLE_MSG="HANDLE_MSG";
+export const DELETE_STARED_FILES="DELETE_STARED_FILES"

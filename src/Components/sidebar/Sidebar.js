@@ -2,6 +2,7 @@
 
 import React ,{useState}from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux'
 import './sidebar.css';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -14,7 +15,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import SidebarIcons from './SidebarIcons';
 import firebase from 'firebase';
-import {storage,db} from '../../firebase';
+import {handleSiderbar,addFile} from '../../actions'
+
 
 const getModalStyle=()=>{
     return{
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Sidebar = ({currentUser,setSidebarOpen,sidebarOpen}) => {
+const Sidebar = (props) => {
     const classes = useStyles();
 
     const [modalStyle]=useState(getModalStyle);
@@ -59,19 +61,13 @@ const Sidebar = ({currentUser,setSidebarOpen,sidebarOpen}) => {
     }
     const handleUpload =()=>{
         setUploading(true);
-        storage.ref(`files/${file.name}`).put(file)
+        firebase.storage().ref(`files/${file.name}`).put(file)
         .then(snapshot=>{
             console.log(snapshot);
             
-            storage.ref('files').child(file.name).getDownloadURL()
+            firebase.storage().ref('files').child(file.name).getDownloadURL()
             .then(url=>{
-                db.collection('myFiles').add({
-                    timestamp:firebase.firestore.FieldValue.serverTimestamp(),
-                    caption:file.name,
-                    fileUrl:url,
-                    size:snapshot._delegate.bytesTransferred,
-                    userId:currentUser.uid
-                });
+                props.addFile(file,props.auth.uid,url,snapshot)
                 setUploading(false);
                 setOpen(false);
                 setFile(null);
@@ -80,7 +76,7 @@ const Sidebar = ({currentUser,setSidebarOpen,sidebarOpen}) => {
     }
     return (
         <>
-        <div className={`sidebar ${sidebarOpen&& 'ativesidebar'}`}>
+        <div className={`sidebar ${props.isSidebarOpen&& 'ativesidebar'}`}>
             <div className="add-button-container">
                 <button className="add-button" onClick={handleOpen}>
                 <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2236%22 height=%2236%22 viewBox=%220 0 36 36%22%3E%3Cpath fill=%22%2334A853%22 d=%22M16 16v14h4V20z%22/%3E%3Cpath fill=%22%234285F4%22 d=%22M30 16H20l-4 4h14z%22/%3E%3Cpath fill=%22%23FBBC05%22 d=%22M6 16v4h10l4-4z%22/%3E%3Cpath fill=%22%23EA4335%22 d=%22M20 16V6h-4v14z%22/%3E%3Cpath fill=%22none%22 d=%22M0 0h36v36H0z%22/%3E%3C/svg%3E" alt=""/>
@@ -95,7 +91,7 @@ const Sidebar = ({currentUser,setSidebarOpen,sidebarOpen}) => {
                 aria-describedby="simple-modal-description"
             >
                 <div style={modalStyle} className={classes.paper}>
-                    <p>Select files you want to upload!</p>
+                    <p>{file?file.name:"Select files you want to upload!"}</p>
                     {
                         uploading ? (
                             <p>Uploading...</p>
@@ -126,11 +122,18 @@ const Sidebar = ({currentUser,setSidebarOpen,sidebarOpen}) => {
                 
             </div>
         </div>
-        <div onClick={()=>setSidebarOpen(false)} className={`cloasesidebar ${!sidebarOpen&& 'displaynone'}`}>
+        <div onClick={()=>props.handleSiderbar(!props.isSidebarOpen)} className={`cloasesidebar ${!props.isSidebarOpen&& 'displaynone'}`}>
             
         </div>
         </>
     )
 }
 
-export default Sidebar
+const mapStateToProps=(state)=>{
+    return {
+        isSidebarOpen:state.siderbar.sidebarOpen,
+        auth:state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps,{handleSiderbar,addFile})(Sidebar)

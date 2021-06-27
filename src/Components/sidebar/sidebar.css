@@ -130,7 +130,13 @@ margin-left: 10px;
 .cloasesidebar{
     display: none;
 }
+.burger{
+    display: none;
+}
 @media(max-width:757px){
+    .burger{
+        display: block;
+    }
     .add-button{
         position: fixed;
         right: 5%;
