@@ -4,7 +4,7 @@
 </div>
 <br>
 
->Google Drive clone made using ReactJS & FIRBASE (UNDER DEVLOPEMENT) <br>
+>Google Drive clone made using ReactJS ,FIRBASE,REDUX (UNDER DEVLOPEMENT) <br>
 > App made to brush up the React.JS skills 
 
 ## ⚙️ Detailed Functionality
@@ -18,7 +18,7 @@
  
 ## 🚀 Tech and Tools Used
 
-* React.JS , Material UI ,Firebase ..
+* React.JS , Material UI ,Firebase ,Redux,Redux-Thunk, React-Redux-Firebase ..
 * VS code
 * Material UI icons
 
@@ -28,11 +28,14 @@
 ## login page
 <img src="./public/login.png" width='800' height='auto'>
 <br>
+
 ## Home Page
 <img src="./public/home.png" width='800' height='auto'>
 <br>
+
 ## Mobile View
 <img src="./public/mobile.png" width='400' height='auto'>
 <br>
+
 ### LINK : 
 https://driveclone-6e9ac.web.app/
